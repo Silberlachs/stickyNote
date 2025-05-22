@@ -17,6 +17,14 @@ public class MasterWindow implements ChangeListener{
     JLabel rasterLabel;
     JTextArea noteArea;
     JSpinner rasterSpinner;
+    Font theFont;
+    int fontSize;
+
+    public void createFont(){
+        fontSize = 20;
+        theFont = new Font("Serif", 0, fontSize);
+    }
+
 
     public void buildWindow() {
 
@@ -30,7 +38,7 @@ public class MasterWindow implements ChangeListener{
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainWindow.add(noteArea = new JTextArea());
-        noteArea.setFont(new Font("Serif", Font.ITALIC, 20));
+        noteArea.setFont(theFont);
         noteArea.setLineWrap(true);
 
         mainWindow.add(rasterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)), BorderLayout.SOUTH);
@@ -56,7 +64,23 @@ public class MasterWindow implements ChangeListener{
 
     @Override
     public void stateChanged(ChangeEvent rasterChange) {
-        System.out.println("debug stateChanged");
+
+        int tmpval = (int)rasterSpinner.getValue();
+        
+        if(tmpval < 10) 
+        {
+            tmpval = 10;
+            rasterSpinner.setValue(10);
+        }
+        else if(tmpval > 40) 
+        {
+            tmpval = 40;
+            rasterSpinner.setValue(40);
+        }
+
+        fontSize = tmpval;
+        theFont = new Font("Serif", 0, fontSize);
+        noteArea.setFont(theFont);
     }
     
 }

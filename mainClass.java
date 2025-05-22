@@ -5,6 +5,7 @@ class mainClass{
     private void buildWindow(){
 
         masterWindow = new MasterWindow();
+        masterWindow.createFont();
         masterWindow.buildWindow();
         masterWindow.initializeListeners();
         masterWindow.show();
