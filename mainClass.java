@@ -17,3 +17,5 @@ class mainClass{
         main.buildWindow();
     }
 }
+
+//TODO: save and load text area, switch through 5 text areas
