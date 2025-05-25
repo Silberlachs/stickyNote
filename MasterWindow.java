@@ -19,6 +19,7 @@ public class MasterWindow implements ChangeListener{
     JLabel rasterLabel;
     JTextArea noteArea;
     JSpinner fontSizeSpinner;
+    FileHandler fileHandler;
     Font theFont;
     int fontSize;
 
@@ -27,6 +28,9 @@ public class MasterWindow implements ChangeListener{
         theFont = new Font("Serif", 0, fontSize);
     }
 
+    public void initFileHandle(FileHandler fileHandler){
+        this.fileHandler = fileHandler;
+    }
 
     public void buildWindow() {
 
@@ -70,6 +74,7 @@ public class MasterWindow implements ChangeListener{
         fontSizeSpinner.getEditor().getComponent(0).setBackground(Color.DARK_GRAY);
         fontSizeSpinner.getEditor().getComponent(0).setForeground(new Color(255,128,0));
         fontSizeSpinner.setBorder(null);
+        fontSizeSpinner.setValue(20);
         fontSizeSpinner.setName("fontSizeSpinner");
 
     }
@@ -77,6 +82,12 @@ public class MasterWindow implements ChangeListener{
     public void initializeListeners(){
         fontSizeSpinner.addChangeListener(this);
     }
+
+    public void loadNotes(){
+        String tmp = fileHandler.loadNotes();
+        noteArea.setText(tmp);
+    }
+
 
     public void show() {
         mainWindow.repaint();

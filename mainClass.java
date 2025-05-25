@@ -1,6 +1,16 @@
 class mainClass{
 
+    String filePath;
     MasterWindow masterWindow;
+    FileHandler filehandler;
+
+    public mainClass(){
+
+        filePath = System.getProperty("user.dir");
+        filehandler = new FileHandler(filePath);
+        filehandler.loadNotes();
+    }
+
 
     private void buildWindow(){
 
@@ -8,8 +18,12 @@ class mainClass{
         masterWindow.createFont();
         masterWindow.buildWindow();
         masterWindow.initializeListeners();
+        masterWindow.initFileHandle(filehandler);
+
         masterWindow.show();
+        masterWindow.loadNotes();
     }
+
 
     public static void main(String[]args){
 
