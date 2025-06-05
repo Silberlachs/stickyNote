@@ -6,13 +6,16 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-public class MasterWindow implements ChangeListener{
+public class MasterWindow implements ChangeListener, DocumentListener{
 
     JFrame mainWindow;
     JPanel windowPanel, rasterPanel;
@@ -20,6 +23,7 @@ public class MasterWindow implements ChangeListener{
     JTextArea noteArea;
     JSpinner fontSizeSpinner;
     FileHandler fileHandler;
+    Document doc;
     Font theFont;
     int fontSize;
 
@@ -77,10 +81,13 @@ public class MasterWindow implements ChangeListener{
         fontSizeSpinner.setValue(20);
         fontSizeSpinner.setName("fontSizeSpinner");
 
+        doc = noteArea.getDocument();
+        doc.addDocumentListener(this);
     }
 
     public void initializeListeners(){
         fontSizeSpinner.addChangeListener(this);
+        noteArea.setDocument(doc);
     }
 
     public void loadNotes(){
@@ -94,7 +101,6 @@ public class MasterWindow implements ChangeListener{
         mainWindow.setVisible(true);
     }
 
-    @Override
     public void stateChanged(ChangeEvent rasterChange) {
 
         int tmpval = (int)fontSizeSpinner.getValue();
@@ -113,6 +119,18 @@ public class MasterWindow implements ChangeListener{
         fontSize = tmpval;
         theFont = new Font("Serif", 0, fontSize);
         noteArea.setFont(theFont);
+    }
+
+    public void changedUpdate(DocumentEvent e) {
+        System.err.println("not supported");
+    }
+
+    public void insertUpdate(DocumentEvent e) {
+        fileHandler.serializeNotes(noteArea.getText());
+    }
+
+    public void removeUpdate(DocumentEvent e) {
+        fileHandler.serializeNotes(noteArea.getText());
     }
     
 }
