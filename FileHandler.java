@@ -37,8 +37,7 @@ public class FileHandler {
 
             return notes;
         } catch (Exception fail) {
-            System.out.println("loading notes failed");
-            fail.printStackTrace();
+            System.out.println("loading notes failed!\ncheck permissions if this keeps happening after first start!");
         }
         return null;
     }
@@ -67,7 +66,7 @@ public class FileHandler {
 
             return config;
         } catch (Exception fail) {
-            System.out.println("loading config failed");
+            System.out.println("loading config failed!\ncheck permissions if this keeps happening after first start!");
         }
         return null;
     }

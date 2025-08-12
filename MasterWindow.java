@@ -1,3 +1,4 @@
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +30,7 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
     JButton tab1,tab2,tab3,tab4,tab5;
     JTextArea noteArea;
     ArrayList<String>noodlez;
+    ArrayList<JButton>buttons;
     JSpinner fontSizeSpinner;
     FileHandler fileHandler;
     ConfigClass config;
@@ -55,6 +57,8 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
 
     public void buildWindow() {
 
+        buttons = new ArrayList<JButton>();
+
         mainWindow = new JFrame("Sticky Noodles");
         mainWindow.setSize(config.getWindowSize());
         //no folding in on itself and saving this, big yikes
@@ -75,6 +79,10 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
         noteArea.setForeground(new Color(255,128,0));
         noteArea.setCaretColor(new Color(255,128,0));
 
+        noteArea.setBorder(BorderFactory.createCompoundBorder(
+                noteArea.getBorder(), 
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+
         mainWindow.add(rasterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)), BorderLayout.SOUTH);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -84,26 +92,31 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
             tab1.setForeground(Color.orange);
             tab1.setName("button1");
             tab1.addActionListener(this);
+            buttons.add(tab1);
         buttonPanel.add(tab2 = new JButton("2"), BorderLayout.NORTH);        
             tab2.setBackground(Color.DARK_GRAY);
             tab2.setForeground(Color.orange);
             tab2.setName("button2");
             tab2.addActionListener(this);
+            buttons.add(tab2);
         buttonPanel.add(tab3 = new JButton("3"), BorderLayout.NORTH);        
             tab3.setBackground(Color.DARK_GRAY);
             tab3.setForeground(Color.orange);
             tab3.setName("button3");
             tab3.addActionListener(this);
+            buttons.add(tab3);
         buttonPanel.add(tab4 = new JButton("4"), BorderLayout.NORTH);        
             tab4.setBackground(Color.DARK_GRAY);
             tab4.setForeground(Color.orange);
             tab4.setName("button4");
             tab4.addActionListener(this);
+            buttons.add(tab4);
         buttonPanel.add(tab5 = new JButton("5"), BorderLayout.NORTH);        
             tab5.setBackground(Color.DARK_GRAY);
             tab5.setForeground(Color.orange);
             tab5.setName("button5");
             tab5.addActionListener(this);
+            buttons.add(tab5);
         mainWindow.add(buttonPanel,BorderLayout.NORTH);
         
         rasterPanel.setBackground(Color.DARK_GRAY);
@@ -156,6 +169,8 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
         }
 
         noteArea.setText(noodlez.get(config.getActiveTab()));
+        buttons.get(config.getActiveTab()).setBackground(Color.orange);
+        buttons.get(config.getActiveTab()).setForeground(Color.DARK_GRAY);
     }
 
 
@@ -220,9 +235,18 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
 
     @Override
     public void actionPerformed(ActionEvent buttonEv) {
-        config.setActiveTab(Integer.parseInt(buttonEv.getActionCommand())-1);
+        int buttonNumber = Integer.parseInt(buttonEv.getActionCommand())-1;
+
+        buttons.get(config.getActiveTab()).setBackground(Color.DARK_GRAY);
+        buttons.get(config.getActiveTab()).setForeground(Color.orange);
+
+        buttons.get(buttonNumber).setBackground(Color.orange);
+        buttons.get(buttonNumber).setForeground(Color.DARK_GRAY);
+
+        config.setActiveTab(buttonNumber);
         noteArea.setText(noodlez.get(config.getActiveTab()));
-        
+
+        fileHandler.serializeConfig(config);
     }
     
 }
