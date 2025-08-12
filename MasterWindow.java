@@ -169,6 +169,7 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
         }
 
         noteArea.setText(noodlez.get(config.getActiveTab()));
+
         buttons.get(config.getActiveTab()).setBackground(Color.orange);
         buttons.get(config.getActiveTab()).setForeground(Color.DARK_GRAY);
     }
@@ -215,10 +216,6 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
         fileHandler.serializeNotes(noodlez);
     }
 
-    public void componentHidden(ComponentEvent arg0) {
-        System.err.print("");
-    }
-
     public void componentMoved(ComponentEvent arg0) {
         config.setWindowPosition(mainWindow.getLocation());
         fileHandler.serializeConfig(config);
@@ -227,10 +224,6 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
     public void componentResized(ComponentEvent arg0) {
         config.setWindowSize(mainWindow.getSize());
         fileHandler.serializeConfig(config);
-    }
-
-    public void componentShown(ComponentEvent arg0) {
-        System.err.print("");
     }
 
     @Override
@@ -248,6 +241,10 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
 
         fileHandler.serializeConfig(config);
     }
+
+    //Unused, override from interface
+    public void componentShown(ComponentEvent arg0) {System.err.print("");}
+    public void componentHidden(ComponentEvent arg0) {System.err.print("");}
     
 }
 
