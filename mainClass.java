@@ -3,6 +3,7 @@ class mainClass{
     String filePath;
     MasterWindow masterWindow;
     FileHandler filehandler;
+    ConfigClass configClass;
 
     public mainClass(){
 
@@ -11,6 +12,9 @@ class mainClass{
         filehandler.loadNotes();
     }
 
+    public ConfigClass loadConfig(){
+        return filehandler.loadConfig();
+    }
 
     private void buildWindow(){
 
@@ -19,6 +23,7 @@ class mainClass{
         masterWindow.buildWindow();
         masterWindow.initializeListeners();
         masterWindow.initFileHandle(filehandler);
+        masterWindow.initConfig(this.loadConfig());
 
         masterWindow.show();
         masterWindow.loadNotes();
@@ -31,5 +36,3 @@ class mainClass{
         main.buildWindow();
     }
 }
-
-//TODO: save and load text area, switch through 5 text areas

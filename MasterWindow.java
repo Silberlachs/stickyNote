@@ -12,10 +12,13 @@ import javax.swing.text.Document;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
-public class MasterWindow implements ChangeListener, DocumentListener{
+public class MasterWindow implements ChangeListener, DocumentListener, ComponentListener{
 
     JFrame mainWindow;
     JPanel windowPanel, rasterPanel;
@@ -23,6 +26,7 @@ public class MasterWindow implements ChangeListener, DocumentListener{
     JTextArea noteArea;
     JSpinner fontSizeSpinner;
     FileHandler fileHandler;
+    ConfigClass config;
     Document doc;
     Font theFont;
     int fontSize;
@@ -36,13 +40,24 @@ public class MasterWindow implements ChangeListener, DocumentListener{
         this.fileHandler = fileHandler;
     }
 
+    public void initConfig(ConfigClass config){
+
+        this.config = config;
+        if (this.config == null) {
+            this.config = new ConfigClass();
+        }
+    }
+
     public void buildWindow() {
 
-        mainWindow = new JFrame("Sticky Notes");
-        mainWindow.setSize(400,800);
-        
-        //TODO: save loaction from last run
-        mainWindow.setLocationRelativeTo(null);
+        mainWindow = new JFrame("Sticky Noodles");
+        mainWindow.setSize(config.getWindowSize());
+        //no folding in on itself and saving this, big yikes
+        mainWindow.setMinimumSize(new Dimension(400,800));
+
+        mainWindow.addComponentListener(this);
+
+        mainWindow.setLocation(config.getWindowPosition());
         mainWindow.getContentPane();
         mainWindow.setLayout(new BorderLayout());
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,6 +65,7 @@ public class MasterWindow implements ChangeListener, DocumentListener{
         mainWindow.add(noteArea = new JTextArea());
         noteArea.setFont(theFont);
         noteArea.setLineWrap(true);
+        noteArea.setWrapStyleWord(true);
         noteArea.setBackground(Color.DARK_GRAY);
         noteArea.setForeground(new Color(255,128,0));
         noteArea.setCaretColor(new Color(255,128,0));
@@ -78,7 +94,7 @@ public class MasterWindow implements ChangeListener, DocumentListener{
         fontSizeSpinner.getEditor().getComponent(0).setBackground(Color.DARK_GRAY);
         fontSizeSpinner.getEditor().getComponent(0).setForeground(new Color(255,128,0));
         fontSizeSpinner.setBorder(null);
-        fontSizeSpinner.setValue(20);
+        fontSizeSpinner.setValue(config.getFontSize());
         fontSizeSpinner.setName("fontSizeSpinner");
 
         doc = noteArea.getDocument();
@@ -122,7 +138,7 @@ public class MasterWindow implements ChangeListener, DocumentListener{
     }
 
     public void changedUpdate(DocumentEvent e) {
-        System.err.println("not supported");
+        System.err.println("document change update not supported");
     }
 
     public void insertUpdate(DocumentEvent e) {
@@ -131,6 +147,22 @@ public class MasterWindow implements ChangeListener, DocumentListener{
 
     public void removeUpdate(DocumentEvent e) {
         fileHandler.serializeNotes(noteArea.getText());
+    }
+
+    public void componentHidden(ComponentEvent arg0) {
+        System.err.println("component hiding / showing not implemented");
+    }
+
+    public void componentMoved(ComponentEvent arg0) {
+        config.setWindowPosition(mainWindow.getLocation());
+    }
+
+    public void componentResized(ComponentEvent arg0) {
+        config.setWindowSize(mainWindow.getSize());
+    }
+
+    public void componentShown(ComponentEvent arg0) {
+        System.err.println("component hiding / showing not implemented");
     }
     
 }

@@ -13,30 +13,59 @@ public class FileHandler {
 
     public void serializeNotes(String notes){
         try {
-            FileOutputStream fileOut = new FileOutputStream("urmom.gay");
+            FileOutputStream fileOut = new FileOutputStream("noodle.soup");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(notes);
             out.close();
             fileOut.close();
         } catch (Exception fail) {
-            System.out.println("writing failed");
+            System.out.println("writing notes failed");
         }
     }
 
     public String loadNotes(){
         try {
-            FileInputStream fileIn = new FileInputStream("urmom.gay");
+            FileInputStream fileIn = new FileInputStream("noodle.soup");
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
-            String kekw = (String)in.readObject();
+            String notes = (String)in.readObject();
 
             in.close();
             fileIn.close();
 
-            return kekw;
+            return notes;
         } catch (Exception fail) {
-            System.out.println("loading failed");
+            System.out.println("loading notes failed");
         }
         return "failed loading";
+    }
+
+    public void serializeConfig(String notes){
+        try {
+            FileOutputStream fileOut = new FileOutputStream("noodle.soup");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(notes);
+            out.close();
+            fileOut.close();
+        } catch (Exception fail) {
+            System.out.println("writing notes failed");
+        }
+    }
+
+    public ConfigClass loadConfig(){
+        try {
+            FileInputStream fileIn = new FileInputStream("noodle.bowl");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+
+            ConfigClass config = (ConfigClass)in.readObject();
+
+            in.close();
+            fileIn.close();
+
+            return config;
+        } catch (Exception fail) {
+            System.out.println("loading config failed");
+        }
+        return null;
     }
 }
