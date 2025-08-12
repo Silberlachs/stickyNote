@@ -222,6 +222,7 @@ public class MasterWindow implements ChangeListener, DocumentListener, Component
     public void actionPerformed(ActionEvent buttonEv) {
         config.setActiveTab(Integer.parseInt(buttonEv.getActionCommand())-1);
         noteArea.setText(noodlez.get(config.getActiveTab()));
+        
     }
     
 }

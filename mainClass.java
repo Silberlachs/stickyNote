@@ -25,7 +25,7 @@ class mainClass{
         masterWindow.loadNotes();
     }
 
-
+    //TODO: swap colors for active tab
     //TODO: extract logic from masterwindow in sub-functions for clean code practise
     public static void main(String[]args){
 
