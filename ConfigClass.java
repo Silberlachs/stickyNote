@@ -1,7 +1,8 @@
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.Serializable;
 
-public class ConfigClass {
+public class ConfigClass implements Serializable{
  
     Dimension windowSize;
     Point windowPosition;

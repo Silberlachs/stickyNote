@@ -11,25 +11,22 @@ class mainClass{
         filehandler = new FileHandler(filePath);
         filehandler.loadNotes();
     }
-
-    public ConfigClass loadConfig(){
-        return filehandler.loadConfig();
-    }
-
+    
     private void buildWindow(){
 
         masterWindow = new MasterWindow();
+        masterWindow.initFileHandle(filehandler);
         masterWindow.createFont();
+        masterWindow.initConfig(filehandler.loadConfig());
         masterWindow.buildWindow();
         masterWindow.initializeListeners();
-        masterWindow.initFileHandle(filehandler);
-        masterWindow.initConfig(this.loadConfig());
 
         masterWindow.show();
         masterWindow.loadNotes();
     }
 
 
+    //TODO: extract logic from masterwindow in sub-functions for clean code practise
     public static void main(String[]args){
 
         mainClass main = new mainClass();

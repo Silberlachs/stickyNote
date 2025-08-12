@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class FileHandler {
     
@@ -11,7 +12,7 @@ public class FileHandler {
         this.filePath = filePath;
     }
 
-    public void serializeNotes(String notes){
+    public void serializeNotes(ArrayList<String> notes){
         try {
             FileOutputStream fileOut = new FileOutputStream("noodle.soup");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -23,12 +24,13 @@ public class FileHandler {
         }
     }
 
-    public String loadNotes(){
+    @SuppressWarnings("unchecked")
+    public ArrayList<String> loadNotes(){
         try {
             FileInputStream fileIn = new FileInputStream("noodle.soup");
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
-            String notes = (String)in.readObject();
+            ArrayList<String> notes = (ArrayList<String>)in.readObject();
 
             in.close();
             fileIn.close();
@@ -36,19 +38,20 @@ public class FileHandler {
             return notes;
         } catch (Exception fail) {
             System.out.println("loading notes failed");
+            fail.printStackTrace();
         }
-        return "failed loading";
+        return null;
     }
 
-    public void serializeConfig(String notes){
+    public void serializeConfig(ConfigClass config){
         try {
-            FileOutputStream fileOut = new FileOutputStream("noodle.soup");
+            FileOutputStream fileOut = new FileOutputStream("noodle.bowl");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(notes);
+            out.writeObject(config);
             out.close();
             fileOut.close();
         } catch (Exception fail) {
-            System.out.println("writing notes failed");
+            System.out.println("writing config failed");
         }
     }
 
